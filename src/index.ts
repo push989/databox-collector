@@ -1,8 +1,8 @@
 import express from "express";
 import dotenv from "dotenv";
-import apiRouter from "./routes";
-
 dotenv.config();
+
+import apiRouter from "./routes";
 
 const port = process.env.PORT;
 

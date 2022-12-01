@@ -1,8 +1,21 @@
 import Router from "express-promise-router";
+import DataboxIntegrationService from "../integrations/databox/DataboxIntegrationService";
 
 const router = Router();
 
-router.get("/", (req, res) => {
+router.get("/", async (req, res) => {
+  await DataboxIntegrationService.pushMetrics([
+    {
+      name: "Sales",
+      value: 420,
+      date: new Date(),
+    },
+    {
+      name: "Orders",
+      value: 1,
+    },
+  ]);
+
   res.send("Hello World");
 });
 

@@ -28,6 +28,7 @@
     "typescript": "4.9.3"
   },
   "dependencies": {
+    "databox": "^2.0.1",
     "dotenv": "16.0.3",
     "express": "4.18.2",
     "express-promise-router": "4.1.1"
