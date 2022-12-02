@@ -1,5 +1,6 @@
 import Router from "express-promise-router";
 import DataboxIntegrationService from "../integrations/databox/DataboxIntegrationService";
+import RedditIntegrationService from "../integrations/reddit/RedditIntegrationService";
 
 const router = Router();
 
@@ -15,6 +16,12 @@ router.get("/", async (req, res) => {
       value: 1,
     },
   ]);
+
+  res.send("Hello World");
+});
+
+router.get("/reddit", async (req, res) => {
+  await RedditIntegrationService.authorize();
 
   res.send("Hello World");
 });
