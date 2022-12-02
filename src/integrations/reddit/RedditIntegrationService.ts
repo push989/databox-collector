@@ -1,13 +1,7 @@
 import axios from "axios";
 import FormData from "form-data";
 import { appConfig } from "../../appConfig";
-
-interface RedditAuthResponse {
-  access_token: string;
-  expires_in: number;
-  scope: string;
-  token_type: string;
-}
+import { RedditAuthResponse } from "./RedditModels";
 
 class RedditIntegrationService {
   private readonly BASE_URL = "https://www.reddit.com/api/v1";
