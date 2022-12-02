@@ -5,6 +5,23 @@
     "version": "0.2.0",
     "configurations": [
         {
+            "name": "Debug current test file",
+            "request": "launch",
+            "runtimeArgs": [
+                "run-script",
+                "test"
+            ],
+            "runtimeExecutable": "npm",
+            "args": [
+                "${relativeFile}"
+            ],
+            "skipFiles": [
+                "<node_internals>/**"
+            ],
+            "type": "node",
+            "envFile": "${workspaceFolder}/.env.example"
+        },
+        {
             "type": "node",
             "request": "launch",
             "name": "Launch Program",

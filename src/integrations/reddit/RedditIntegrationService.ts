@@ -10,10 +10,10 @@ interface RedditAuthResponse {
 }
 
 class RedditIntegrationService {
-  readonly BASE_URL = "https://www.reddit.com/api/v1/access_token";
-  accessToken: Promise<string> | null = null;
+  private readonly BASE_URL = "https://www.reddit.com/api/v1";
+  private accessToken: Promise<string> | null = null;
 
-  private async getAccessToken(): Promise<string> {
+  async getAccessToken(): Promise<string> {
     if (!this.accessToken) {
       this.accessToken = this.authorize();
     }
@@ -32,7 +32,7 @@ class RedditIntegrationService {
     form.append("device_id", "DO_NOT_TRACK_THIS_DEVICE");
 
     const authResult = await axios.post<RedditAuthResponse>(
-      this.BASE_URL,
+      `${this.BASE_URL}/access_token`,
       form,
       {
         headers: form.getHeaders(),
@@ -45,7 +45,7 @@ class RedditIntegrationService {
 
     setTimeout(() => {
       this.accessToken = null;
-    }, authResult.data.expires_in * 1000);
+    }, authResult.data.expires_in - 10 * 1000);
 
     return authResult.data.access_token;
   }
