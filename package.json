@@ -39,9 +39,8 @@
     "express-promise-router": "4.1.1"
   },
   "lint-staged": {
-    "src/**/*.ts": [
-      "eslint --fix",
-      "git add"
+    "(src|test)/**/*.ts": [
+      "eslint --fix"
     ]
   }
 }
