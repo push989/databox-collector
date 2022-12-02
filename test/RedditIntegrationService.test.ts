@@ -17,12 +17,9 @@ describe("RedditIntegrationService", () => {
     },
   };
 
-  beforeAll(() => {
-    axiosMock.post.mockResolvedValue(authResponse);
-  });
-
   beforeEach(() => {
     authorizeSpy.mockClear();
+    axiosMock.post.mockResolvedValue(authResponse);
   });
 
   afterEach(() => {
@@ -58,6 +55,23 @@ describe("RedditIntegrationService", () => {
 
     expect(firstToken).toBe(authResponse.data.access_token);
     expect(secondToken).toBe(newTokenResponse.data.access_token);
+    expect(authorizeSpy).toHaveBeenCalledTimes(2);
+  });
+
+  test("Don't cache if an error is thrown on authorization", async () => {
+    const httpError = new Error("http error");
+    axiosMock.post.mockRejectedValueOnce(httpError);
+    let receivedError: Error | undefined;
+
+    try {
+      await RedditIntegrationService.getAccessToken();
+    } catch (error) {
+      receivedError = error as Error;
+    }
+    const token = await RedditIntegrationService.getAccessToken();
+
+    expect(receivedError).toBe(httpError);
+    expect(token).toBe(authResponse.data.access_token);
     expect(authorizeSpy).toHaveBeenCalledTimes(2);
   });
 });
