@@ -1,4 +1,4 @@
-export interface Metric {
+export interface DataboxMetric {
   name: string;
   value: number;
   date?: Date;
