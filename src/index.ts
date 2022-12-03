@@ -3,8 +3,7 @@ import dotenv from "dotenv";
 dotenv.config();
 
 import apiRouter from "./routes";
-
-const port = process.env.PORT;
+import { appConfig } from "./appConfig";
 
 const app = express();
 
@@ -13,6 +12,6 @@ app.use(express.urlencoded({ extended: false }));
 
 app.use("/api/v1", apiRouter);
 
-app.listen(port, () => {
-  console.log(`Server started on port ${port}`);
+app.listen(appConfig.port, () => {
+  console.log(`Server started on port ${appConfig.port}`);
 });
