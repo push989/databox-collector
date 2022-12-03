@@ -24,15 +24,10 @@ export interface MetricRetriever {
   getData(metric: MetricName): Promise<MetricData>;
 }
 
-export type DataSourceMetricRetrievers = Partial<
-  Record<MetricName, MetricRetriever>
->;
+export type RetrieverPerMetric = Partial<Record<MetricName, MetricRetriever>>;
 
-export const dataSourceConfiguration: Record<
-  DataSource,
-  DataSourceMetricRetrievers
-> = {
+export const dataSourceConfiguration: Record<DataSource, RetrieverPerMetric> = {
   [DataSource.StackOverflow]: stackOverflowMetricRetrievers,
   // TODO: add reddit retrievers
-  [DataSource.Reddit]: {} as unknown as DataSourceMetricRetrievers,
+  [DataSource.Reddit]: {} as unknown as RetrieverPerMetric,
 };

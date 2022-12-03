@@ -1,4 +1,4 @@
-import { DataSourceMetricRetrievers } from "../CollectorModels";
+import { RetrieverPerMetric } from "../CollectorModels";
 import QuestionCountRetriever from "./QuestionCountRetriever";
 
 export enum MetricStackOverflow {
@@ -8,7 +8,7 @@ export enum MetricStackOverflow {
   PhpQuestionCount = "PhpQuestionCount",
 }
 
-export const stackOverflowMetricRetrievers: DataSourceMetricRetrievers = {
+export const stackOverflowMetricRetrievers: RetrieverPerMetric = {
   [MetricStackOverflow.TypescriptQuestionCount]: QuestionCountRetriever,
   [MetricStackOverflow.PythonQuestionCount]: QuestionCountRetriever,
   [MetricStackOverflow.GoQuestionCount]: QuestionCountRetriever,
