@@ -6,7 +6,7 @@
   "scripts": {
     "compile": "tsc",
     "start": "node ./build/index.js",
-    "start:dev": "tsc-watch --onSuccess \"node ./dist/index.js\"",
+    "start:dev": "tsc-watch --onSuccess \"node ./dist/src/index.js\"",
     "clean": "rm -rf node_modules dist",
     "test": "jest",
     "prepare": "husky install",

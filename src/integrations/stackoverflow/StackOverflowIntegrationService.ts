@@ -13,7 +13,7 @@ class StackOverflowIntegrationService {
     try {
       // TODO: add key for a higher daily request quota
       const response = await axios.get<QuestionApiResponse>(
-        `${this.BASE_URL}`,
+        `${this.BASE_URL}/questions`,
         {
           params: {
             tagged: tag,

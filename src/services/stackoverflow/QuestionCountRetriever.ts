@@ -19,7 +19,7 @@ class QuestionCountRetriever implements MetricRetriever {
 
   mapMetricToTag(metric: MetricStackOverflow): StackOverflowTag {
     switch (metric) {
-      case MetricStackOverflow.TypescriptQuestionCount:
+      case MetricStackOverflow.TypeScriptQuestionCount:
         return "typescript";
       case MetricStackOverflow.PythonQuestionCount:
         return "python";

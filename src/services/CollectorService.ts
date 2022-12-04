@@ -20,7 +20,7 @@ export interface StackOverflowMetrics {
 export type SyncOptions = RedditMetrics | StackOverflowMetrics;
 
 class CollectorService {
-  public async execute(options: SyncOptions[]) {
+  public async collectData(options: SyncOptions[]) {
     return Promise.all(
       options.map(async ({ dataSource, metrics }) => {
         const data = await this.getDataFromDataSource(dataSource, metrics);

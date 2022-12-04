@@ -43,10 +43,10 @@ describe("CollectorService", () => {
     });
 
   test("Get value for a single question count metric", async () => {
-    const response = await CollectorService.execute([
+    const response = await CollectorService.collectData([
       {
         dataSource: DataSource.StackOverflow,
-        metrics: [MetricStackOverflow.TypescriptQuestionCount],
+        metrics: [MetricStackOverflow.TypeScriptQuestionCount],
       },
     ]);
 
@@ -55,7 +55,7 @@ describe("CollectorService", () => {
         dataSource: DataSource.StackOverflow,
         data: [
           expect.objectContaining({
-            name: MetricStackOverflow.TypescriptQuestionCount,
+            name: MetricStackOverflow.TypeScriptQuestionCount,
             value: mockTypescriptResponse.questionCount,
           }),
         ],
@@ -64,11 +64,11 @@ describe("CollectorService", () => {
   });
 
   test("Get values for multiple question count metrics", async () => {
-    const result = await CollectorService.execute([
+    const result = await CollectorService.collectData([
       {
         dataSource: DataSource.StackOverflow,
         metrics: [
-          MetricStackOverflow.TypescriptQuestionCount,
+          MetricStackOverflow.TypeScriptQuestionCount,
           MetricStackOverflow.GoQuestionCount,
         ],
       },
@@ -79,7 +79,7 @@ describe("CollectorService", () => {
         dataSource: DataSource.StackOverflow,
         data: expect.arrayContaining([
           expect.objectContaining({
-            name: MetricStackOverflow.TypescriptQuestionCount,
+            name: MetricStackOverflow.TypeScriptQuestionCount,
             value: mockTypescriptResponse.questionCount,
           }),
           expect.objectContaining({
@@ -92,7 +92,7 @@ describe("CollectorService", () => {
   });
 
   test("Get values for all question count metrics", async () => {
-    const result = await CollectorService.execute([
+    const result = await CollectorService.collectData([
       {
         dataSource: DataSource.StackOverflow,
       },
@@ -103,7 +103,7 @@ describe("CollectorService", () => {
         dataSource: DataSource.StackOverflow,
         data: expect.arrayContaining([
           expect.objectContaining({
-            name: MetricStackOverflow.TypescriptQuestionCount,
+            name: MetricStackOverflow.TypeScriptQuestionCount,
             value: mockTypescriptResponse.questionCount,
           }),
           expect.objectContaining({

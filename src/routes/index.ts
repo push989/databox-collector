@@ -1,8 +1,8 @@
 import Router from "express-promise-router";
-import testRouter from "./testRoutes";
+import integrationRouter from "./integrationRoutes";
 
 const router = Router();
 
-router.use("/test", testRouter);
+router.use("/integration", integrationRouter);
 
 export default router;
