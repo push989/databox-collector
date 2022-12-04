@@ -2,8 +2,8 @@ import {
   DataSource,
   dataSourceConfiguration,
   MetricName,
-  MetricReddit,
 } from "./CollectorModels";
+import { MetricReddit } from "./reddit/Configurations";
 import { MetricStackOverflow } from "./stackoverflow/Configuration";
 
 // TODO extract these interface somewhere more client side

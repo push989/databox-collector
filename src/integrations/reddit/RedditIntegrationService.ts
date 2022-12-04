@@ -1,10 +1,13 @@
 import axios from "axios";
 import FormData from "form-data";
 import { appConfig } from "../../appConfig";
-import { RedditAuthResponse } from "./RedditModels";
+import {
+  RedditAuthResponse,
+  Subreddit,
+  SubredditPostsResponse,
+} from "./RedditModels";
 
 class RedditIntegrationService {
-  private readonly BASE_URL = "https://www.reddit.com/api/v1";
   private accessToken: Promise<string> | null = null;
 
   async getAccessToken(): Promise<string> {
@@ -26,7 +29,7 @@ class RedditIntegrationService {
     form.append("device_id", "DO_NOT_TRACK_THIS_DEVICE");
 
     const authResult = await axios.post<RedditAuthResponse>(
-      `${this.BASE_URL}/access_token`,
+      appConfig.redditAuthUrl,
       form,
       {
         headers: form.getHeaders(),
@@ -42,6 +45,20 @@ class RedditIntegrationService {
     }, authResult.data.expires_in - 10 * 1000);
 
     return authResult.data.access_token;
+  }
+
+  async getSubredditPosts(subreddit: Subreddit, after?: string, limit = 100) {
+    const access_token = await this.getAccessToken();
+
+    const subredditPostsResponse = await axios.get<SubredditPostsResponse>(
+      `${appConfig.redditBaseUrl}/r/${subreddit}/new`,
+      {
+        headers: { Authorization: `Bearer ${access_token}` },
+        params: { limit, after },
+      }
+    );
+
+    return subredditPostsResponse.data;
   }
 }
 
