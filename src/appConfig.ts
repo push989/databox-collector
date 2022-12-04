@@ -6,6 +6,8 @@ const appConfig = {
   redditClientId: process.env.REDDIT_CLIENT_ID!,
   redditClientSecret: process.env.REDDIT_CLIENT_SECRET!,
   redditBaseUrl: process.env.REDDIT_BASE_URL!,
+  server: process.env.SERVER! === "true",
+  processor: process.env.PROCESSOR! === "true",
 };
 
 export { appConfig };
