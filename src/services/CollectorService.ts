@@ -1,8 +1,4 @@
-import {
-  DataSource,
-  dataSourceConfiguration,
-  MetricName,
-} from "./CollectorModels";
+import { DataSource, dataSourceConfiguration, MetricName } from "./CollectorModels";
 import { MetricReddit } from "./reddit/Configurations";
 import { MetricStackOverflow } from "./stackoverflow/Configuration";
 

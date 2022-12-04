@@ -15,17 +15,10 @@ class SubredditPostsCountRetriever implements MetricRetriever {
     };
   }
 
-  async getSinglePostPage(
-    subredditName: Subreddit,
-    nextPage?: string,
-    count = 0
-  ): Promise<number> {
+  async getSinglePostPage(subredditName: Subreddit, nextPage?: string, count = 0): Promise<number> {
     const {
       data: { children, after },
-    } = await RedditIntegrationService.getSubredditPosts(
-      subredditName,
-      nextPage
-    );
+    } = await RedditIntegrationService.getSubredditPosts(subredditName, nextPage);
 
     if (!children.length) {
       return 0;
@@ -42,11 +35,7 @@ class SubredditPostsCountRetriever implements MetricRetriever {
       return count + todaysLastPostIndex;
     }
 
-    return this.getSinglePostPage(
-      subredditName,
-      after,
-      count + children.length
-    );
+    return this.getSinglePostPage(subredditName, after, count + children.length);
   }
 
   mapMetricToSubreddit(metric: MetricReddit) {

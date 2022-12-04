@@ -1,8 +1,5 @@
 import { MetricReddit, redditMetricRetrievers } from "./reddit/Configurations";
-import {
-  MetricStackOverflow,
-  stackOverflowMetricRetrievers,
-} from "./stackoverflow/Configuration";
+import { MetricStackOverflow, stackOverflowMetricRetrievers } from "./stackoverflow/Configuration";
 
 export enum DataSource {
   Reddit = "Reddit",

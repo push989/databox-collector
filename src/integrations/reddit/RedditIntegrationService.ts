@@ -1,11 +1,7 @@
 import axios from "axios";
 import FormData from "form-data";
 import { appConfig } from "../../appConfig";
-import {
-  RedditAuthResponse,
-  Subreddit,
-  SubredditPostsResponse,
-} from "./RedditModels";
+import { RedditAuthResponse, Subreddit, SubredditPostsResponse } from "./RedditModels";
 
 class RedditIntegrationService {
   private accessToken: Promise<string> | null = null;
@@ -28,17 +24,13 @@ class RedditIntegrationService {
     form.append("grant_type", "client_credentials");
     form.append("device_id", "DO_NOT_TRACK_THIS_DEVICE");
 
-    const authResult = await axios.post<RedditAuthResponse>(
-      appConfig.redditAuthUrl,
-      form,
-      {
-        headers: form.getHeaders(),
-        auth: {
-          username: appConfig.redditClientId,
-          password: appConfig.redditClientSecret,
-        },
-      }
-    );
+    const authResult = await axios.post<RedditAuthResponse>(appConfig.redditAuthUrl, form, {
+      headers: form.getHeaders(),
+      auth: {
+        username: appConfig.redditClientId,
+        password: appConfig.redditClientSecret,
+      },
+    });
 
     setTimeout(() => {
       this.accessToken = null;

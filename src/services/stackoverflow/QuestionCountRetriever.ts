@@ -5,10 +5,9 @@ import { MetricData, MetricRetriever } from "../CollectorModels";
 
 class QuestionCountRetriever implements MetricRetriever {
   async getData(metric: MetricStackOverflow): Promise<MetricData> {
-    const { questionCount } =
-      await StackOverflowIntegrationService.getQuestionCount(
-        this.mapMetricToTag(metric)
-      );
+    const { questionCount } = await StackOverflowIntegrationService.getQuestionCount(
+      this.mapMetricToTag(metric)
+    );
 
     return {
       name: metric,

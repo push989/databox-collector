@@ -5,9 +5,7 @@ class MainService {
   async integrate(syncOptions: SyncOptions[]) {
     const data = await CollectorService.collectData(syncOptions);
 
-    return Promise.all(
-      data.map(({ data }) => DataboxIntegrationService.pushMetrics(data))
-    );
+    return Promise.all(data.map(({ data }) => DataboxIntegrationService.pushMetrics(data)));
   }
 }
 

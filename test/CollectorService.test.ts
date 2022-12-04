@@ -67,10 +67,7 @@ describe("CollectorService", () => {
     const result = await CollectorService.collectData([
       {
         dataSource: DataSource.StackOverflow,
-        metrics: [
-          MetricStackOverflow.TypeScriptQuestionCount,
-          MetricStackOverflow.GoQuestionCount,
-        ],
+        metrics: [MetricStackOverflow.TypeScriptQuestionCount, MetricStackOverflow.GoQuestionCount],
       },
     ]);
 
