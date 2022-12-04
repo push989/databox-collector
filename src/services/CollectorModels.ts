@@ -20,7 +20,7 @@ export interface MetricRetriever {
 
 export type RetrieverPerMetric = Partial<Record<MetricName, MetricRetriever>>;
 
-export const dataSourceConfiguration: Record<DataSource, RetrieverPerMetric> = {
+export const configPerDataSource: Record<DataSource, RetrieverPerMetric> = {
   [DataSource.StackOverflow]: stackOverflowMetricRetrievers,
   [DataSource.Reddit]: redditMetricRetrievers,
 };

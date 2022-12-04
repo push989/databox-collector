@@ -1,6 +1,5 @@
 import Databox, { PushRequest } from "databox";
 import { appConfig } from "../../appConfig";
-import Logger from "../../common/Logger";
 import { DataboxMetric } from "./DataboxModels";
 
 class DataboxIntegrationService {
@@ -18,10 +17,8 @@ class DataboxIntegrationService {
 
       this.client.insertAll(metricsRequest, (result) => {
         if (result.status === "OK") {
-          Logger.log("databox_push_success", result);
           resolve();
         } else {
-          Logger.logError("databox_push_error", result);
           reject(result);
         }
       });

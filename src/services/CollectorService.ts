@@ -1,4 +1,4 @@
-import { DataSource, dataSourceConfiguration, MetricName } from "./CollectorModels";
+import { configPerDataSource, DataSource, MetricName, MetricRetriever } from "./CollectorModels";
 import { MetricReddit } from "./reddit/Configurations";
 import { MetricStackOverflow } from "./stackoverflow/Configuration";
 
@@ -30,15 +30,15 @@ class CollectorService {
   }
 
   async getDataFromDataSource(dataSource: DataSource, metrics?: MetricName[]) {
-    const dataSourceMetricRetrievers = dataSourceConfiguration[dataSource];
+    const dataSourceConfig = configPerDataSource[dataSource];
 
     const metricsToRetrieve = metrics?.length
       ? metrics
-      : (Object.keys(dataSourceMetricRetrievers) as MetricName[]);
+      : this.getAllDataSourceMetrics(dataSourceConfig);
 
     return Promise.all(
       metricsToRetrieve.map(async (metric) => {
-        const retriever = dataSourceMetricRetrievers[metric];
+        const retriever = dataSourceConfig[metric];
         if (!retriever) {
           throw new Error("Retriever not defined for metric!");
         }
@@ -46,6 +46,12 @@ class CollectorService {
         return retriever.getData(metric);
       })
     );
+  }
+
+  getAllDataSourceMetrics(
+    dataSourceConfig: Partial<Record<MetricName, MetricRetriever>>
+  ): MetricName[] {
+    return Object.keys(dataSourceConfig) as MetricName[];
   }
 }
 

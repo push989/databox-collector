@@ -1,17 +1,23 @@
-import { appConfig } from "../appConfig";
+import pino from "pino";
 
 class Logger {
-  public log(action: string, payload: object): void {
-    if (appConfig.logLevel > 0) {
-      return;
-    }
-    console.log(action, payload);
+  logger = pino(
+    pino.transport({
+      target: "pino/file",
+      options: { destination: "./logs", mkdir: true },
+    })
+  );
+
+  log(action: string, payload: object): void {
+    this.logger.info({ action, payload });
   }
 
-  public logError(action: string, payload: object): void {
-    if (appConfig.logLevel < 1) {
-      console.error(action, payload);
-    }
+  error(action: string, payload: object): void {
+    this.logger.error({ action, payload });
+  }
+
+  debug(action: string, payload: object): void {
+    this.logger.debug({ action, payload });
   }
 }
 

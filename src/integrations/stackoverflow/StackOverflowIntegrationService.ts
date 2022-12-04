@@ -1,4 +1,4 @@
-import axios, { isAxiosError } from "axios";
+import axios from "axios";
 import Logger from "../../common/Logger";
 import { QuestionApiResponse, QuestionCount, StackOverflowTag } from "./StackOverflowModels";
 
@@ -16,18 +16,14 @@ class StackOverflowIntegrationService {
         },
       });
 
-      Logger.log("stackoverflow_question_count_response", { response });
+      Logger.debug("stackoverflow_question_response", { response });
 
       return {
         tag,
         questionCount: response.data.total,
       };
     } catch (error) {
-      if (isAxiosError(error)) {
-        Logger.logError("stackoverflow_question_count_error", { error });
-      }
-
-      Logger.logError("stackoverflow_question_count_error", { error });
+      Logger.error("stackoverflow_question_error", { error });
 
       throw error;
     }
