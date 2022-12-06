@@ -1,3 +1,4 @@
+import Logger from "../../common/Logger";
 import { IntegrationOptions } from "../IntegrationModels";
 import {
   dataSourceRetrievers,
@@ -31,10 +32,17 @@ class CollectorService {
     dataSource: DataSource,
     metric: MetricName
   ): Promise<MetricData> {
-    const retriever = this.getMetricRetriever(dataSource, metric);
     try {
+      const retriever = this.getMetricRetriever(dataSource, metric);
+
       return await retriever.getData(metric);
     } catch (error) {
+      Logger.error("retrieve_metric_error", {
+        dataSource,
+        metric,
+        error: (error as Error)?.message ?? error,
+      });
+
       return {
         name: metric,
         error: error as Error,

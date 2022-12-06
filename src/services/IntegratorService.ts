@@ -23,7 +23,7 @@ class IntegrationService {
 
             Logger.log("databox_send", {
               serviceName: dataSource,
-              metrics: data,
+              metrics: retrievedMetrics,
               numberOfKpis: data.length,
               success: true,
             });
