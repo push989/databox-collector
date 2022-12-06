@@ -4,12 +4,14 @@ import { MetricReddit } from "../src/services/reddit/Configurations";
 import { MetricStackOverflow } from "../src/services/stackoverflow/Configuration";
 
 describe("CollectorService", () => {
-  jest.spyOn(CollectorService, "getMetricRetriever").mockImplementation((dataSource, metric) => ({
-    getData: async () => ({
-      name: metric,
-      value: 100,
-    }),
-  }));
+  const mockMetricRetriever = jest
+    .spyOn(CollectorService, "getMetricRetriever")
+    .mockImplementation((dataSource, metric) => ({
+      getData: async () => ({
+        name: metric,
+        value: 100,
+      }),
+    }));
 
   test("Get value for a single metric", async () => {
     const response = await CollectorService.collectData([
@@ -110,6 +112,44 @@ describe("CollectorService", () => {
         data: expect.arrayContaining([
           expect.objectContaining({
             name: MetricReddit.GoPostCount,
+            value: 100,
+          }),
+        ]),
+      },
+    ]);
+  });
+
+  test("Return errors for specific metrics", async () => {
+    const thrownError = new Error("Request failed");
+    mockMetricRetriever.mockImplementationOnce((dataSource, metric) => ({
+      getData: async () => {
+        if (metric === MetricStackOverflow.GoQuestionCount) {
+          throw thrownError;
+        }
+        return {
+          name: metric,
+          value: 100,
+        };
+      },
+    }));
+
+    const result = await CollectorService.collectData([
+      {
+        dataSource: DataSource.StackOverflow,
+        metrics: [MetricStackOverflow.GoQuestionCount, MetricStackOverflow.PhpQuestionCount],
+      },
+    ]);
+
+    expect(result).toEqual([
+      {
+        dataSource: DataSource.StackOverflow,
+        data: expect.arrayContaining([
+          expect.objectContaining({
+            name: MetricStackOverflow.GoQuestionCount,
+            error: thrownError,
+          }),
+          expect.objectContaining({
+            name: MetricStackOverflow.PhpQuestionCount,
             value: 100,
           }),
         ]),
