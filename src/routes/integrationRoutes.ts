@@ -5,9 +5,9 @@ import fs from "fs";
 const router = Router();
 
 router.post("/", async (req, res) => {
-  const syncOptions = req.body;
+  const integrationOptions = req.body;
   try {
-    await IntegratorService.integrate(syncOptions);
+    await IntegratorService.integrate(integrationOptions);
     res.send("OK");
   } catch (error) {
     res.status(500).send({ error });

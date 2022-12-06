@@ -1,11 +1,11 @@
 import Logger from "../common/Logger";
 import DataboxIntegrationService from "../integrations/databox/DataboxIntegrationService";
 import { DataboxMetric } from "../integrations/databox/DataboxModels";
-import CollectorService, { SyncOptions } from "./CollectorService";
+import CollectorService, { IntegrationOptions } from "./CollectorService";
 
-class MainService {
-  async integrate(syncOptions: SyncOptions[]) {
-    const data = await CollectorService.collectData(syncOptions);
+class IntegrationService {
+  async integrate(integrationOptions: IntegrationOptions[]) {
+    const data = await CollectorService.collectData(integrationOptions);
 
     return Promise.all(
       data.map(async ({ dataSource, data }) => {
@@ -40,4 +40,4 @@ class MainService {
   }
 }
 
-export default new MainService();
+export default new IntegrationService();

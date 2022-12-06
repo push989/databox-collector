@@ -19,10 +19,10 @@ export interface StackOverflowMetrics {
   metrics?: MetricStackOverflow[];
 }
 
-export type SyncOptions = RedditMetrics | StackOverflowMetrics;
+export type IntegrationOptions = RedditMetrics | StackOverflowMetrics;
 
 class CollectorService {
-  public async collectData(options: SyncOptions[]) {
+  public async collectData(options: IntegrationOptions[]) {
     return Promise.all(
       options.map(async ({ dataSource, metrics }) => {
         const metricsToRetrieve = metrics?.length
