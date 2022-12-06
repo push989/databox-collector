@@ -1,3 +1,4 @@
+import { IntegrationOptions } from "../IntegrationModels";
 import {
   dataSourceRetrievers,
   DataSource,
@@ -5,21 +6,6 @@ import {
   MetricName,
   MetricRetriever,
 } from "./CollectorModels";
-import { MetricReddit } from "./reddit/Configurations";
-import { MetricStackOverflow } from "./stackoverflow/Configuration";
-
-// TODO extract these interface somewhere more client side
-export interface RedditMetrics {
-  dataSource: DataSource.Reddit;
-  metrics?: MetricReddit[];
-}
-
-export interface StackOverflowMetrics {
-  dataSource: DataSource.StackOverflow;
-  metrics?: MetricStackOverflow[];
-}
-
-export type IntegrationOptions = RedditMetrics | StackOverflowMetrics;
 
 class CollectorService {
   public async collectData(options: IntegrationOptions[]) {

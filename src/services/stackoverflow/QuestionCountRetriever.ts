@@ -1,7 +1,7 @@
 import StackOverflowIntegrationService from "../../integrations/stackoverflow/StackOverflowIntegrationService";
 import { StackOverflowTag } from "../../integrations/stackoverflow/StackOverflowModels";
 import { MetricStackOverflow } from "./Configuration";
-import { MetricData, MetricRetriever } from "../CollectorModels";
+import { MetricData, MetricRetriever } from "../collector/CollectorModels";
 
 class QuestionCountRetriever implements MetricRetriever {
   async getData(metric: MetricStackOverflow): Promise<MetricData> {

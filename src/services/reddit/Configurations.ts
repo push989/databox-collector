@@ -1,4 +1,4 @@
-import { RetrieverPerMetric } from "../CollectorModels";
+import { RetrieverPerMetric } from "../collector/CollectorModels";
 import SubredditPostsCountRetriever from "./SubredditPostsCountRetriever";
 
 export enum MetricReddit {

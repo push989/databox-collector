@@ -1,6 +1,6 @@
 import RedditIntegrationService from "../../integrations/reddit/RedditIntegrationService";
 import { Subreddit } from "../../integrations/reddit/RedditModels";
-import { MetricData, MetricRetriever } from "../CollectorModels";
+import { MetricData, MetricRetriever } from "../collector/CollectorModels";
 import { MetricReddit } from "./Configurations";
 
 class SubredditPostsCountRetriever implements MetricRetriever {

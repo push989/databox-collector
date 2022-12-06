@@ -1,5 +1,5 @@
 import { CronJob } from "cron";
-import { DataSource } from "../services/CollectorModels";
+import { DataSource } from "../services/collector/CollectorModels";
 import IntegratorService from "../services/IntegratorService";
 
 export default function startProcessors() {

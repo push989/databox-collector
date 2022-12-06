@@ -1,5 +1,5 @@
-import { DataSource } from "../src/services/CollectorModels";
-import CollectorService from "../src/services/CollectorService";
+import { DataSource } from "../src/services/collector/CollectorModels";
+import CollectorService from "../src/services/collector/CollectorService";
 import { MetricReddit } from "../src/services/reddit/Configurations";
 import { MetricStackOverflow } from "../src/services/stackoverflow/Configuration";
 

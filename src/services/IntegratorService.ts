@@ -1,7 +1,8 @@
 import Logger from "../common/Logger";
 import DataboxIntegrationService from "../integrations/databox/DataboxIntegrationService";
 import { DataboxMetric } from "../integrations/databox/DataboxModels";
-import CollectorService, { IntegrationOptions } from "./CollectorService";
+import CollectorService from "./collector/CollectorService";
+import { IntegrationOptions } from "./IntegrationModels";
 
 class IntegrationService {
   async integrate(integrationOptions: IntegrationOptions[]) {
