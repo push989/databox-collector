@@ -3,8 +3,18 @@ import pino from "pino";
 class Logger {
   logger = pino(
     pino.transport({
-      target: "pino/file",
-      options: { destination: "./logs", mkdir: true },
+      targets: [
+        {
+          level: "debug",
+          target: "pino-pretty",
+          options: {},
+        },
+        {
+          target: "pino/file",
+          options: { destination: "./logs", mkdir: true },
+          level: "debug",
+        },
+      ],
     })
   );
 
