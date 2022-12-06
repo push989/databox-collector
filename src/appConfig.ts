@@ -1,7 +1,6 @@
 const appConfig = {
   port: parseInt(process.env.PORT!),
   databoxPushToken: process.env.DATABOX_PUSH_TOKEN!,
-  logLevel: parseInt(process.env.LOG_LEVEL!),
   redditAuthUrl: process.env.REDDIT_AUTH_URL!,
   redditClientId: process.env.REDDIT_CLIENT_ID!,
   redditClientSecret: process.env.REDDIT_CLIENT_SECRET!,
