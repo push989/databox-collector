@@ -16,7 +16,7 @@ class QuestionCountRetriever implements MetricRetriever {
     };
   }
 
-  mapMetricToTag(metric: MetricStackOverflow): StackOverflowTag {
+  private mapMetricToTag(metric: MetricStackOverflow): StackOverflowTag {
     switch (metric) {
       case MetricStackOverflow.TypeScriptQuestionCount:
         return "typescript";
