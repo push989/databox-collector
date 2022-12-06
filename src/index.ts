@@ -5,6 +5,7 @@ dotenv.config();
 import apiRouter from "./routes";
 import { appConfig } from "./appConfig";
 import startProcessors from "./processors";
+import errorHandler from "./middleware/ErrorHandler";
 
 if (appConfig.server) {
   const app = express();
@@ -13,6 +14,8 @@ if (appConfig.server) {
   app.use(express.urlencoded({ extended: false }));
 
   app.use("/api/v1", apiRouter);
+
+  app.use(errorHandler);
 
   app.listen(appConfig.port, () => {
     console.log(`Server started on port ${appConfig.port}`);

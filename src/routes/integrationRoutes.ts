@@ -6,12 +6,8 @@ const router = Router();
 
 router.post("/", async (req, res) => {
   const integrationOptions = req.body;
-  try {
-    await IntegratorService.integrate(integrationOptions);
-    res.send("OK");
-  } catch (error) {
-    res.status(500).send({ error });
-  }
+  const response = await IntegratorService.integrate(integrationOptions);
+  res.json(response);
 });
 
 router.get("/logs", async (req, res) => {

@@ -1,4 +1,4 @@
-import { DataSource } from "./collector/CollectorModels";
+import { DataSource, MetricData, MetricName } from "./collector/CollectorModels";
 import { MetricReddit } from "./reddit/Configurations";
 import { MetricStackOverflow } from "./stackoverflow/Configuration";
 
@@ -13,3 +13,13 @@ export interface StackOverflowMetrics {
 }
 
 export type IntegrationOptions = RedditMetrics | StackOverflowMetrics;
+
+export interface IntegrationResponse {
+  dataSource: DataSource;
+  metricsSent?: MetricData[];
+  metricsFailed?: {
+    metric: MetricName;
+    error: string;
+  }[];
+  error?: string;
+}
