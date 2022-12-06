@@ -3,6 +3,7 @@ Serves as an integration service between various data sources and Databox.
 
 1. [Running the project locally](#running-the-project-locally)
 2. [Overview](#overview)
+   1. [Usage](#usage)
    1. [IntegratorService](#integratorservice)
    2. [CollectorService](#collectorservice)
    3. [Periodic triggering](#periodic-triggering)
@@ -33,6 +34,37 @@ Development was done with node v18.12.1, from the root you can run:
 
 
 # Overview
+
+## Usage
+
+Trigger integration:
+
+    curl --location --request POST 'http://localhost:3000/api/v1/integration' \
+    --header 'Content-Type: application/json' \
+    --data-raw '[
+        {
+            "dataSource": "StackOverflow",
+            "metrics": [
+                "TypeScriptQuestionCount",
+                "PythonQuestionCount",
+                "GoQuestionCount",
+                "PhpQuestionCount"
+            ]
+        },
+        {
+            "dataSource": "Reddit",
+            "metrics": [
+                "TypeScriptPostCount",
+                "GoPostCount",
+                "PhpPostCount",
+                "PythonPostCount"
+            ]
+        }
+    ]'
+
+Get logs:
+
+    curl --location --request GET 'http://localhost:3000/api/v1/integration/logs'
 
 ## IntegratorService
 
@@ -88,3 +120,4 @@ Currently logs are saved both to the console and a <root>/log file via pinojs. L
 - Add a request retry mechanism for http errors in case a service is temporarily down
 - If the expected traffic is high, consider adding a local database to store the retrieved metrics and push them to Databox periodically in chunks. Could store erroneous metrics as well for further retrying.
 - Improve upon the configurability of the service, add a client entity so that each client can configure and save which metrics should be integrated.
+- Add validation to endpoints
