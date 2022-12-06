@@ -1,48 +1,17 @@
-import StackOverflowIntegrationService from "../src/integrations/stackoverflow/StackOverflowIntegrationService";
-import { QuestionCount } from "../src/integrations/stackoverflow/StackOverflowModels";
 import { DataSource } from "../src/services/CollectorModels";
 import CollectorService from "../src/services/CollectorService";
+import { MetricReddit } from "../src/services/reddit/Configurations";
 import { MetricStackOverflow } from "../src/services/stackoverflow/Configuration";
 
 describe("CollectorService", () => {
-  const mockTypescriptResponse: QuestionCount = {
-    tag: "typescript",
-    questionCount: 500,
-  };
+  jest.spyOn(CollectorService, "getMetricRetriever").mockImplementation((dataSource, metric) => ({
+    getData: async () => ({
+      name: metric,
+      value: 100,
+    }),
+  }));
 
-  const mockGoResponse: QuestionCount = {
-    tag: "go",
-    questionCount: 400,
-  };
-
-  const mockPhpResponse: QuestionCount = {
-    tag: "php",
-    questionCount: 300,
-  };
-
-  const mockPythonResponse: QuestionCount = {
-    tag: "python",
-    questionCount: 600,
-  };
-
-  jest
-    .spyOn(StackOverflowIntegrationService, "getQuestionCount")
-    .mockImplementation(async (tag) => {
-      switch (tag) {
-        case "typescript":
-          return mockTypescriptResponse;
-        case "php":
-          return mockPhpResponse;
-        case "go":
-          return mockGoResponse;
-        case "python":
-          return mockPythonResponse;
-        default:
-          throw new Error();
-      }
-    });
-
-  test("Get value for a single question count metric", async () => {
+  test("Get value for a single metric", async () => {
     const response = await CollectorService.collectData([
       {
         dataSource: DataSource.StackOverflow,
@@ -56,14 +25,14 @@ describe("CollectorService", () => {
         data: [
           expect.objectContaining({
             name: MetricStackOverflow.TypeScriptQuestionCount,
-            value: mockTypescriptResponse.questionCount,
+            value: 100,
           }),
         ],
       },
     ]);
   });
 
-  test("Get values for multiple question count metrics", async () => {
+  test("Get values for multiple metrics", async () => {
     const result = await CollectorService.collectData([
       {
         dataSource: DataSource.StackOverflow,
@@ -77,18 +46,18 @@ describe("CollectorService", () => {
         data: expect.arrayContaining([
           expect.objectContaining({
             name: MetricStackOverflow.TypeScriptQuestionCount,
-            value: mockTypescriptResponse.questionCount,
+            value: 100,
           }),
           expect.objectContaining({
             name: MetricStackOverflow.GoQuestionCount,
-            value: mockGoResponse.questionCount,
+            value: 100,
           }),
         ]),
       },
     ]);
   });
 
-  test("Get values for all question count metrics", async () => {
+  test("Get values for all datasource metrics", async () => {
     const result = await CollectorService.collectData([
       {
         dataSource: DataSource.StackOverflow,
@@ -101,19 +70,47 @@ describe("CollectorService", () => {
         data: expect.arrayContaining([
           expect.objectContaining({
             name: MetricStackOverflow.TypeScriptQuestionCount,
-            value: mockTypescriptResponse.questionCount,
+            value: 100,
           }),
           expect.objectContaining({
             name: MetricStackOverflow.GoQuestionCount,
-            value: mockGoResponse.questionCount,
+            value: 100,
           }),
           expect.objectContaining({
             name: MetricStackOverflow.PhpQuestionCount,
-            value: mockPhpResponse.questionCount,
+            value: 100,
           }),
           expect.objectContaining({
             name: MetricStackOverflow.PythonQuestionCount,
-            value: mockPythonResponse.questionCount,
+            value: 100,
+          }),
+        ]),
+      },
+    ]);
+  });
+
+  test("Get values for multiple datasource metrics", async () => {
+    const result = await CollectorService.collectData([
+      { dataSource: DataSource.StackOverflow, metrics: [MetricStackOverflow.GoQuestionCount] },
+      { dataSource: DataSource.Reddit, metrics: [MetricReddit.GoPostCount] },
+    ]);
+
+    expect(result).toEqual([
+      {
+        dataSource: DataSource.StackOverflow,
+        data: expect.arrayContaining([
+          expect.objectContaining({
+            name: MetricStackOverflow.GoQuestionCount,
+            value: 100,
+          }),
+        ]),
+      },
+      {
+        dataSource: DataSource.Reddit,
+        data: expect.arrayContaining([
+          expect.objectContaining({
+            name: MetricReddit.GoPostCount,
+            value: 100,
           }),
         ]),
       },

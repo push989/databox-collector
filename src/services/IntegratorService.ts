@@ -1,5 +1,6 @@
 import Logger from "../common/Logger";
 import DataboxIntegrationService from "../integrations/databox/DataboxIntegrationService";
+import { DataboxMetric } from "../integrations/databox/DataboxModels";
 import CollectorService, { SyncOptions } from "./CollectorService";
 
 class MainService {
@@ -9,7 +10,15 @@ class MainService {
     return Promise.all(
       data.map(async ({ dataSource, data }) => {
         try {
-          await DataboxIntegrationService.pushMetrics(data);
+          const retrievedMetrics: DataboxMetric[] = data
+            .filter((d) => d.value !== undefined && !d.error)
+            .map((d) => ({
+              name: d.name,
+              value: d.value!,
+              date: d.date,
+            }));
+
+          await DataboxIntegrationService.pushMetrics(retrievedMetrics);
 
           Logger.log("databox_send", {
             serviceName: dataSource,

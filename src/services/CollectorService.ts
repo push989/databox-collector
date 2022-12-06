@@ -1,4 +1,10 @@
-import { configPerDataSource, DataSource, MetricName, MetricRetriever } from "./CollectorModels";
+import {
+  dataSourceRetrievers,
+  DataSource,
+  MetricData,
+  MetricName,
+  MetricRetriever,
+} from "./CollectorModels";
 import { MetricReddit } from "./reddit/Configurations";
 import { MetricStackOverflow } from "./stackoverflow/Configuration";
 
@@ -19,7 +25,13 @@ class CollectorService {
   public async collectData(options: SyncOptions[]) {
     return Promise.all(
       options.map(async ({ dataSource, metrics }) => {
-        const data = await this.getDataFromDataSource(dataSource, metrics);
+        const metricsToRetrieve = metrics?.length
+          ? metrics
+          : this.getAllDataSourceMetrics(dataSource);
+
+        const data = await Promise.all(
+          metricsToRetrieve.map((metric) => this.retrieveMetricData(dataSource, metric))
+        );
 
         return {
           dataSource,
@@ -29,29 +41,33 @@ class CollectorService {
     );
   }
 
-  async getDataFromDataSource(dataSource: DataSource, metrics?: MetricName[]) {
-    const dataSourceConfig = configPerDataSource[dataSource];
-
-    const metricsToRetrieve = metrics?.length
-      ? metrics
-      : this.getAllDataSourceMetrics(dataSourceConfig);
-
-    return Promise.all(
-      metricsToRetrieve.map(async (metric) => {
-        const retriever = dataSourceConfig[metric];
-        if (!retriever) {
-          throw new Error("Retriever not defined for metric!");
-        }
-
-        return retriever.getData(metric);
-      })
-    );
+  private async retrieveMetricData(
+    dataSource: DataSource,
+    metric: MetricName
+  ): Promise<MetricData> {
+    const retriever = this.getMetricRetriever(dataSource, metric);
+    try {
+      return await retriever.getData(metric);
+    } catch (error) {
+      return {
+        name: metric,
+        error: error as Error,
+      };
+    }
   }
 
-  getAllDataSourceMetrics(
-    dataSourceConfig: Partial<Record<MetricName, MetricRetriever>>
-  ): MetricName[] {
-    return Object.keys(dataSourceConfig) as MetricName[];
+  getMetricRetriever(dataSource: DataSource, metric: MetricName): MetricRetriever {
+    const retriever = dataSourceRetrievers[dataSource][metric];
+
+    if (!retriever) {
+      throw new Error("Retriever not defined for metric!");
+    }
+
+    return retriever;
+  }
+
+  private getAllDataSourceMetrics(dataSource: DataSource): MetricName[] {
+    return Object.keys(dataSourceRetrievers[dataSource]) as MetricName[];
   }
 }
 
