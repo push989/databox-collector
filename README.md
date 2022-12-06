@@ -1,6 +1,14 @@
 # databox-collector
 Serves as an integration service between various data sources and Databox.
 
+1. [Running the project locally](#running-the-project-locally)
+2. [Overview](#overview)
+   1. [IntegratorService](#integratorservice)
+   2. [CollectorService](#collectorservice)
+   3. [Periodic triggering](#periodic-triggering)
+   4. [Logging](#logging)
+3. [Possible improvements](#possible-improvements)
+
 # Running the project locally
 Get the secrets needed to run the project:
 1. create a .env file in the root of the project and copy the values from .env.example
@@ -68,7 +76,7 @@ You can run two separate processes, one with SERVER=true and the other with PROC
 
 ## Logging
 
-Currently logs are saved both to the console and a <root>/log file via pinojs. Logs in the file are in an NDJSON format and can be obtained by a stream from GET /integraton/logs endpoint.
+Currently logs are saved both to the console and a <root>/log file via pinojs. Logs in the file are in an NDJSON format and can be obtained by a stream from the GET /integraton/logs endpoint.
 
 # Possible improvements
 
