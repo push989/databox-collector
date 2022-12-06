@@ -39,7 +39,11 @@ class RedditIntegrationService {
     return authResult.data.access_token;
   }
 
-  async getSubredditPosts(subreddit: Subreddit, after?: string, limit = 100) {
+  async getSubredditPosts(
+    subreddit: Subreddit,
+    after?: string,
+    limit = 100
+  ): Promise<SubredditPostsResponse> {
     const access_token = await this.getAccessToken();
 
     const subredditPostsResponse = await axios.get<SubredditPostsResponse>(
