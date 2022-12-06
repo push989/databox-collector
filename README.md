@@ -71,8 +71,11 @@ Adding a new MetricRetriever is pretty straightforward - add a class that implem
 
 ## Periodic triggering
 
-Periodic integration triggering is implemented in the "processors" folder via the "cron" npm package. You can set a desired crontab and a implement a job that should execute based on that crontab. If the project is started with an env value of PROCESSOR=true, a cronjob will run every minute to integrate all the metrics to Databox.
-You can run two separate processes, one with SERVER=true and the other with PROCESSOR=true to separate the express server from the periodic job processor. For local development both values are set to true so that the server and processor run in the same process.
+Periodic integration triggering is implemented in the "processors" folder via the "cron" npm package. You can set a desired crontab and implement a job that should execute based on that crontab. 
+
+If the project is started with an env value of PROCESSOR=true, a cronjob will run every minute to integrate all the metrics to Databox.
+
+You can run two separate processes, one with SERVER=true and the other with PROCESSOR=true to separate the express server from the periodic job processor. For local development both values are set to true, so that the server and processor run in the same process.
 
 ## Logging
 
@@ -83,4 +86,5 @@ Currently logs are saved both to the console and a <root>/log file via pinojs. L
 - Integrate with a proper message queue system (BullMQ for example) to be able to share the jobs between several processor instances with job distribution, failure handling etc. - allows for better scaling
 - Use elasticsearch to store logs
 - Add a request retry mechanism for http errors in case a service is temporarily down
-- If the expected traffic is high, consider adding a local database to store the retrieved metrics and push them to Databox periodically in chunks.
+- If the expected traffic is high, consider adding a local database to store the retrieved metrics and push them to Databox periodically in chunks. Could store erroneous metrics as well for further retrying.
+- Improve upon the configurability of the service, add a client entity so that each client can configure and save which metrics should be integrated.
